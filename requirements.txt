@@ -11,3 +11,4 @@ pillow>=8.3.2
 Flask==2.0.2
 flask-cors
 attrdict==2.0.1
+Flask-Limiter==2.1.3
