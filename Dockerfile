@@ -21,7 +21,7 @@ RUN python setup.py develop
 
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 
-# Force download pre-trained model
+# Force download pre-trained model.
 RUN python -c "from facexlib.utils.face_restoration_helper import FaceRestoreHelper; FaceRestoreHelper(1)"
 RUN mkdir -p /usr/local/lib/python3.7/site-packages/realesrgan/weights
 RUN wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth -O /usr/local/lib/python3.7/site-packages/realesrgan/weights/RealESRGAN_x2plus.pth
