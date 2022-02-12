@@ -1,6 +1,5 @@
 FROM python:3.7.12-slim-buster
 
-ENV BASICSR_EXT True
 ENV PYTHONUNBUFFERED True
 
 ENV APP_HOME /app
@@ -14,7 +13,7 @@ RUN wget https://github.com/TencentARC/GFPGAN/releases/download/v0.2.0/GFPGANCle
 
 RUN python -m pip install --upgrade pip
 RUN python -m pip install torch==1.7.1+cpu torchvision==0.8.2+cpu torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
-RUN pip install basicsr -vvv
+RUN pip install basicsr
 RUN pip install facexlib
 RUN pip install -r requirements.txt
 RUN pip install realesrgan
