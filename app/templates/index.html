@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Face Restoration</title>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    body {
+		  background-color: #202123;
+		  color: #ddd;
+    }
+    input {
+      color: #fff;
+    }
+    img { max-width: 100%;}
+  </style>
+
+</head>
+<body>
+  <div class="container center-align" style="max-width: 600px;">
+    <div class="row">
+      <h3>Face Restoration</h3>
+      <img src="https://camo.githubusercontent.com/37b7b9eeea773388ddf21aa313800d83dfcc99dc8358fad14f9772ccd43106e8/68747470733a2f2f78696e6e74616f2e6769746875622e696f2f70726f6a656374732f47465047414e5f7372632f67667067616e5f7465617365722e6a7067" alt="logo" style="width: 100%;">
+      <p>Project Github: <a href="https://github.com/TencentARC/GFPGAN" target="_blank">https://github.com/TencentARC/GFPGAN</a></p>
+      <p>Original paper: <a href="https://arxiv.org/abs/2101.04061" target="_blank">https://arxiv.org/abs/2101.04061</a></p>
+      <p>Wang, X., Li, Y., Zhang, H., & Shan, Y. (2021). Towards Real-World Blind Face Restoration with Generative Facial Prior. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 9168-9178).</p>
+    </div>
+
+    <!-- Main Input For Receiving Query to our ML -->
+    <form action="/predict" method="post" enctype="multipart/form-data">
+      <div class="file-field input-field">
+        <div class="btn">
+          <span>Select File</span>
+          <input type="file" name="file" accept="image/*">
+        </div>
+
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+
+        <p>
+          <label style="color: #fff;">
+            <input type="checkbox" name="bgenh" class="filled-in" />
+            <span>Enable background enhancement</span>
+          </label>
+        </p>
+
+        <button
+          class="btn waves-effect waves-light"
+          style="width: 100%;"
+          type="submit"
+          name="action"
+          onclick="onBtnClick()"
+          >
+            Process
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="container center-align">
+    <div class="row">
+      <div class="col s12"><p>{{error_msg}}</p></div>
+    </div>
+
+    <div class="row hide" id="spinner">
+      <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if data is defined and data|length > 0 %}
+  <div class="container center-align">
+
+    <div class="row">
+      <h5>Original Image</h5>
+      <img src="{{data['original_img']}}" />
+    </div>
+
+    <div class="row">
+      <h5>Restored Image</h5>
+      <img src="{{data['restored_img']}}" />
+    </div>
+
+    <div class="row">
+      <h5>Face comparison</h5>
+      {% for dto in data['faces'] %}
+      <div class="row">
+        <div class="col s6"><img src="{{dto[0]}}" /></div>
+        <div class="col s6"><img src="{{dto[1]}}" /></div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  {% endif %}
+<script type="text/javascript" src="static/js/materialize.min.js"></script>
+<script>
+  function onBtnClick() {
+    document.getElementById("spinner").classList.remove('hide');
+  }
+
+</script>
+</body>
+</html>
